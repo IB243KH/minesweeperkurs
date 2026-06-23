@@ -8,7 +8,6 @@ class DatabaseManager : public QObject {
 public:
     explicit DatabaseManager(QObject* parent = nullptr);
     ~DatabaseManager();
-
     bool init();
     bool addRecord(const QString& difficulty, int timeSeconds, int rows, int cols, int mines);
     QVariantList getRecords(const QString& difficulty = QString()) const;
