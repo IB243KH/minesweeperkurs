@@ -11,12 +11,9 @@ Window {
     visible: true
     title: "💣 Сапер"
     color: "#0d1117"
-
     GameModel {
         id: game
     }
-
-    // Screen stack
     StackView {
         id: stack
         anchors.fill: parent
@@ -37,7 +34,6 @@ Window {
             PropertyAnimation { property: "scale"; from: 1; to: 0.92; duration: 200 }
         }
     }
-
     Component {
         id: menuScreen
         MenuScreen {
@@ -50,14 +46,12 @@ Window {
             }
         }
     }
-
     Component {
         id: gameScreen
         Item {
             Column {
                 anchors.fill: parent
                 spacing: 0
-
                 GameHeader {
                     width: parent.width
                     height: 72
@@ -68,7 +62,6 @@ Window {
                     onNewGame: stack.pop()
                     onRestart: game.newGame(game.rows, game.cols, game.mines, game.difficulty)
                 }
-
                 GameBoard {
                     width: parent.width
                     height: parent.height - 72
@@ -81,8 +74,6 @@ Window {
                     onChord: function(index) { game.chord(index) }
                 }
             }
-
-            // Win overlay
             WinScreen {
                 anchors.fill: parent
                 visible: game.gameState === "won"
@@ -94,7 +85,6 @@ Window {
             }
         }
     }
-
     Component {
         id: recordsScreen
         RecordsScreen {
