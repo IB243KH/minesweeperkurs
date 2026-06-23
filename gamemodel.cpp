@@ -68,14 +68,11 @@ void GameModel::newGame(int rows, int cols, int mines, const QString& difficulty
 
 void GameModel::placeMines(int firstIndex) {
     QVector<int> positions;
-    // Protect first click and neighbors
     QVector<int> safe = neighbors(firstIndex);
     safe.append(firstIndex);
 
     for (int i = 0; i < m_rows * m_cols; ++i)
         if (!safe.contains(i)) positions.append(i);
-
-    // Shuffle and take first m_mines
     for (int i = positions.size() - 1; i > 0; --i) {
         int j = QRandomGenerator::global()->bounded(i + 1);
         std::swap(positions[i], positions[j]);
@@ -218,7 +215,6 @@ void GameModel::checkWin() {
     if (unrevealed == 0) {
         m_timer.stop();
         m_gameState = "won";
-        // Auto-flag remaining mines
         for (int i = 0; i < m_cells.size(); i++) {
             if (m_cells[i].isMine && !m_cells[i].isFlagged) {
                 m_cells[i].isFlagged = true;
@@ -242,7 +238,6 @@ void GameModel::revealAllMines() {
             auto idx = createIndex(i, 0);
             emit dataChanged(idx, idx);
         }
-        // Show wrong flags
         if (c.isFlagged && !c.isMine) {
             c.isRevealed = true;
             auto idx = createIndex(i, 0);
