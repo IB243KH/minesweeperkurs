@@ -6,23 +6,18 @@ Rectangle {
     color: "#161b22"
     border.color: "#21262d"
     border.width: 0
-
-    // Bottom border only
     Rectangle {
         anchors.bottom: parent.bottom
         width: parent.width
         height: 1
         color: "#21262d"
     }
-
     property int flagsLeft: 0
     property int elapsedTime: 0
     property string gameState: "idle"
     property string difficulty: "easy"
-
     signal newGame()
     signal restart()
-
     Row {
         anchors {
             left: parent.left
@@ -31,8 +26,6 @@ Rectangle {
             leftMargin: 20
             rightMargin: 20
         }
-
-        // Back button
         Rectangle {
             width: 36; height: 36
             radius: 8
@@ -40,9 +33,7 @@ Rectangle {
             border.color: "#30363d"
             border.width: 1
             anchors.verticalCenter: parent.verticalCenter
-
             Text { anchors.centerIn: parent; text: "←"; font.pixelSize: 18; color: "#8892a4" }
-
             MouseArea {
                 id: backHover
                 anchors.fill: parent
@@ -51,10 +42,7 @@ Rectangle {
                 onClicked: header.newGame()
             }
         }
-
         Item { width: 12; height: 1 }
-
-        // Difficulty badge
         Rectangle {
             height: 28
             width: diffLabel.width + 24
@@ -73,7 +61,6 @@ Rectangle {
                 return "#7c3aed"
             }
             border.width: 1
-
             Text {
                 id: diffLabel
                 anchors.centerIn: parent
@@ -93,15 +80,11 @@ Rectangle {
                 }
             }
         }
-
         Item { width: parent.width - 320; height: 1 }
-
-        // Center - status face button
         Item {
             width: parent.width - 320
             height: parent.height
             anchors.verticalCenter: parent.verticalCenter
-
             Rectangle {
                 anchors.centerIn: parent
                 width: 46; height: 46
@@ -109,7 +92,6 @@ Rectangle {
                 color: faceHover.containsMouse ? "#21262d" : "#0d1117"
                 border.color: "#30363d"
                 border.width: 1
-
                 Text {
                     anchors.centerIn: parent
                     font.pixelSize: 24
@@ -120,7 +102,6 @@ Rectangle {
                         return "🙂"
                     }
                 }
-
                 MouseArea {
                     id: faceHover
                     anchors.fill: parent
@@ -130,12 +111,9 @@ Rectangle {
                 }
             }
         }
-
-        // Flags counter
         Row {
             spacing: 8
             anchors.verticalCenter: parent.verticalCenter
-
             Text { text: "🚩"; font.pixelSize: 20; anchors.verticalCenter: parent.verticalCenter }
             Text {
                 text: flagsLeft < 0 ? flagsLeft : ("0" + flagsLeft).slice(-2 - (flagsLeft >= 100 ? 1 : 0))
@@ -146,10 +124,7 @@ Rectangle {
                 anchors.verticalCenter: parent.verticalCenter
             }
         }
-
         Item { width: 24; height: 1 }
-
-        // Timer
         Row {
             spacing: 8
             anchors.verticalCenter: parent.verticalCenter
@@ -170,8 +145,6 @@ Rectangle {
         }
 
         Item { width: 12; height: 1 }
-
-        // Restart button
         Rectangle {
             width: 36; height: 36
             radius: 8
