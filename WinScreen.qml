@@ -32,7 +32,6 @@ Rectangle {
         easing.type: Easing.OutCubic
     }
 
-    // Confetti particles
     property var particles: []
     Timer {
         id: confettiTimer
@@ -91,7 +90,6 @@ Rectangle {
         anchors.centerIn: parent
         spacing: 24
 
-        // Trophy icon with bounce
         Text {
             anchors.horizontalCenter: parent.horizontalCenter
             text: "🏆"
@@ -133,7 +131,6 @@ Rectangle {
             }
         }
 
-        // Time result card
         Rectangle {
             anchors.horizontalCenter: parent.horizontalCenter
             width: 260
@@ -170,7 +167,6 @@ Rectangle {
             }
         }
 
-        // Buttons
         Row {
             anchors.horizontalCenter: parent.horizontalCenter
             spacing: 16
