@@ -10,7 +10,7 @@ struct Cell {
     bool isFlagged = false;
     bool isQuestionMark = false;
     int neighborCount = 0;
-    bool isExploded = false;  // the mine that was clicked
+    bool isExploded = false;
 };
 
 class GameModel : public QAbstractListModel {
@@ -37,8 +37,6 @@ public:
     };
 
     explicit GameModel(QObject* parent = nullptr);
-
-    // QAbstractListModel
     int rowCount(const QModelIndex& parent = {}) const override;
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
     QHash<int, QByteArray> roleNames() const override;
@@ -55,7 +53,7 @@ public:
     Q_INVOKABLE void newGame(int rows, int cols, int mines, const QString& difficulty);
     Q_INVOKABLE void revealCell(int index);
     Q_INVOKABLE void toggleFlag(int index);
-    Q_INVOKABLE void chord(int index);  // reveal neighbors if flags match count
+    Q_INVOKABLE void chord(int index);
     Q_INVOKABLE void loadRecords(const QString& difficulty = QString());
 
 signals:
@@ -80,7 +78,7 @@ private:
     int m_flagsLeft = 10;
     int m_elapsed = 0;
     bool m_firstClick = true;
-    QString m_gameState = "idle";  // idle, playing, won, lost
+    QString m_gameState = "idle";
     QString m_difficulty = "easy";
 
     QVector<Cell> m_cells;
