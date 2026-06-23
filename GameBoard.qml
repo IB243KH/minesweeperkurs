@@ -3,17 +3,13 @@ import QtQuick.Controls
 
 Item {
     id: boardRoot
-
     property int rows: 9
     property int cols: 9
     property string gameState: "idle"
     property var model: null
-
     signal revealCell(int index)
     signal toggleFlag(int index)
     signal chord(int index)
-
-    // Compute cell size based on available space
     readonly property real cellSize: Math.floor(Math.min(
         (width - 32) / cols,
         (height - 32) / rows,
@@ -21,8 +17,6 @@ Item {
     ))
     readonly property real boardW: cols * cellSize
     readonly property real boardH: rows * cellSize
-
-    // Scroll area for large boards
     ScrollView {
         anchors.fill: parent
         contentWidth: Math.max(boardW + 32, width)
@@ -30,12 +24,9 @@ Item {
         clip: true
         ScrollBar.horizontal.policy: boardW + 32 > width ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
         ScrollBar.vertical.policy: boardH + 32 > height ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
-
         Item {
             width: Math.max(boardW + 32, boardRoot.width)
             height: Math.max(boardH + 32, boardRoot.height)
-
-            // Board shadow glow
             Rectangle {
                 anchors.centerIn: parent
                 width: boardW + 20
@@ -51,14 +42,11 @@ Item {
                 opacity: 0.5
                 Behavior on border.color { ColorAnimation { duration: 400 } }
             }
-
-            // Grid container
             Item {
                 id: gridContainer
                 anchors.centerIn: parent
                 width: boardW
                 height: boardH
-
                 GridView {
                     id: grid
                     anchors.fill: parent
@@ -67,12 +55,10 @@ Item {
                     model: boardRoot.model
                     interactive: false
                     clip: false
-
                     delegate: CellItem {
                         width: cellSize - 2
                         height: cellSize - 2
                         x: 1; y: 1
-
                         isMine: model.isMine
                         isRevealed: model.isRevealed
                         isFlagged: model.isFlagged
@@ -81,7 +67,6 @@ Item {
                         isExploded: model.isExploded
                         cellIndex: model.cellIndex
                         gameOver: gameState === "lost" || gameState === "won"
-
                         onLeftClicked: function(index) {
                             if (isRevealed && neighborCount > 0)
                                 boardRoot.chord(index)
@@ -93,8 +78,6 @@ Item {
                     }
                 }
             }
-
-            // Game state overlay for "idle"
             Rectangle {
                 anchors.centerIn: parent
                 width: boardW + 4
@@ -102,7 +85,6 @@ Item {
                 radius: 8
                 color: "transparent"
                 visible: gameState === "idle"
-
                 Text {
                     anchors.centerIn: parent
                     text: "Натисніть на клітинку\nщоб розпочати"
@@ -115,8 +97,6 @@ Item {
             }
         }
     }
-
-    // Connection for cells revealed animation
     Connections {
         target: boardRoot.model
         function onCellsRevealed(indices) {
