@@ -4,43 +4,33 @@ import QtQuick.Controls
 Item {
     property var records: []
     signal back()
-
     property string filterDifficulty: "all"
-
-    // Filtered list
     property var filteredRecords: {
         if (filterDifficulty === "all") return records
         return records.filter(r => r.difficulty === filterDifficulty)
     }
-
     Rectangle {
         anchors.fill: parent
         color: "#0d1117"
     }
-
     Column {
         anchors.fill: parent
         spacing: 0
-
-        // Header
         Rectangle {
             width: parent.width
             height: 64
             color: "#161b22"
-
             Rectangle {
                 anchors.bottom: parent.bottom
                 width: parent.width; height: 1
                 color: "#21262d"
             }
-
             Row {
                 anchors {
                     left: parent.left; right: parent.right
                     verticalCenter: parent.verticalCenter
                     leftMargin: 20; rightMargin: 20
                 }
-
                 Rectangle {
                     width: 36; height: 36; radius: 8
                     color: bkHov.containsMouse ? "#21262d" : "transparent"
@@ -54,9 +44,7 @@ Item {
                         cursorShape: Qt.PointingHandCursor; onClicked: back()
                     }
                 }
-
                 Item { width: 16; height: 1 }
-
                 Text {
                     text: "🏆 ТАБЛИЦЯ РЕКОРДІВ"
                     font.pixelSize: 18
@@ -65,14 +53,10 @@ Item {
                     color: "#ffd60a"
                     anchors.verticalCenter: parent.verticalCenter
                 }
-
                 Item { width: 1; height: 1; implicitWidth: parent.width - 360 }
-
-                // Filter tabs
                 Row {
                     spacing: 8
                     anchors.verticalCenter: parent.verticalCenter
-
                     Repeater {
                         model: [
                             {key: "all", label: "ВСІ"},
@@ -87,7 +71,6 @@ Item {
                             color: filterDifficulty === item.key ? "#ffd60a" : "transparent"
                             border.color: filterDifficulty === item.key ? "#ffd60a" : "#30363d"
                             border.width: 1
-
                             Text {
                                 id: tabLabel
                                 anchors.centerIn: parent
@@ -95,7 +78,6 @@ Item {
                                 font.pixelSize: 10; font.letterSpacing: 2
                                 color: filterDifficulty === item.key ? "#0d1117" : "#8892a4"
                             }
-
                             MouseArea {
                                 anchors.fill: parent; cursorShape: Qt.PointingHandCursor
                                 onClicked: filterDifficulty = item.key
@@ -105,26 +87,20 @@ Item {
                 }
             }
         }
-
-        // Records list
         Item {
             width: parent.width
             height: parent.height - 64
-
-            // Column headers
             Rectangle {
                 id: tableHeader
                 width: parent.width
                 height: 36
                 color: "#161b22"
                 z: 1
-
                 Row {
                     anchors {
                         fill: parent
                         leftMargin: 32; rightMargin: 32
                     }
-
                     Repeater {
                         model: [
                             {label: "#", w: 44},
@@ -143,7 +119,6 @@ Item {
                         }
                     }
                 }
-
                 Rectangle {
                     anchors.bottom: parent.bottom
                     width: parent.width; height: 1; color: "#21262d"
@@ -167,7 +142,6 @@ Item {
                     height: 48
                     color: index % 2 === 0 ? "#0d1117" : "#0a0e15"
 
-                    // Rank highlight
                     Rectangle {
                         width: 3; height: parent.height
                         color: {
@@ -184,7 +158,6 @@ Item {
                             leftMargin: 32; rightMargin: 32
                         }
 
-                        // Rank
                         Text {
                             width: 44; anchors.verticalCenter: parent.verticalCenter
                             text: rec.rank <= 3 ? ["🥇","🥈","🥉"][rec.rank - 1] : "#" + rec.rank
@@ -192,7 +165,6 @@ Item {
                             color: "#8892a4"
                         }
 
-                        // Difficulty
                         Rectangle {
                             width: 120; height: 48
                             color: "transparent"
@@ -239,7 +211,6 @@ Item {
                             }
                         }
 
-                        // Time
                         Text {
                             width: 100; anchors.verticalCenter: parent.verticalCenter
                             text: {
@@ -251,21 +222,18 @@ Item {
                             color: rec.rank === 1 ? "#ffd700" : "#00ff88"
                         }
 
-                        // Field
                         Text {
                             width: 100; anchors.verticalCenter: parent.verticalCenter
                             text: rec.rows + " × " + rec.cols
                             font.pixelSize: 13; color: "#8892a4"
                         }
 
-                        // Mines
                         Text {
                             width: 80; anchors.verticalCenter: parent.verticalCenter
                             text: "💣 " + rec.mines
                             font.pixelSize: 13; color: "#8892a4"
                         }
 
-                        // Date
                         Text {
                             width: 120; anchors.verticalCenter: parent.verticalCenter
                             text: rec.date
@@ -279,7 +247,6 @@ Item {
                     }
                 }
 
-                // Empty state
                 Item {
                     visible: filteredRecords.length === 0
                     anchors.fill: parent
