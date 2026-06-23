@@ -12,7 +12,6 @@ DatabaseManager::~DatabaseManager() {
     if (m_db.isOpen())
         m_db.close();
 }
-
 bool DatabaseManager::init() {
     QString dbPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
     QDir().mkpath(dbPath);
