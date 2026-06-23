@@ -5,17 +5,13 @@ import QtQuick.Layouts
 Item {
     signal startGame(int rows, int cols, int mines, string difficulty)
     signal showRecords()
-
-    // Background animated grid
     Canvas {
         id: bgCanvas
         anchors.fill: parent
         opacity: 0.07
-
         property real t: 0
         NumberAnimation on t { from: 0; to: 1; duration: 8000; loops: Animation.Infinite }
         onTChanged: requestPaint()
-
         onPaint: {
             var ctx = getContext("2d")
             ctx.clearRect(0, 0, width, height)
@@ -31,30 +27,24 @@ Item {
             }
         }
     }
-
     Column {
         anchors.centerIn: parent
         spacing: 0
-
-        // Title
         Column {
             anchors.horizontalCenter: parent.horizontalCenter
             spacing: 4
-
             Text {
                 anchors.horizontalCenter: parent.horizontalCenter
                 text: "💣"
                 font.pixelSize: 72
                 style: Text.Outline
                 styleColor: "#00ff88"
-
                 SequentialAnimation on scale {
                     loops: Animation.Infinite
                     NumberAnimation { to: 1.08; duration: 1200; easing.type: Easing.InOutSine }
                     NumberAnimation { to: 1.0; duration: 1200; easing.type: Easing.InOutSine }
                 }
             }
-
             Text {
                 anchors.horizontalCenter: parent.horizontalCenter
                 text: "САПЕР"
@@ -63,7 +53,6 @@ Item {
                 font.weight: Font.Black
                 color: "#ffffff"
             }
-
             Text {
                 anchors.horizontalCenter: parent.horizontalCenter
                 text: "MINESWEEPER"
@@ -73,10 +62,7 @@ Item {
                 opacity: 0.8
             }
         }
-
         Item { width: 1; height: 40 }
-
-        // Difficulty cards
         Text {
             anchors.horizontalCenter: parent.horizontalCenter
             text: "ОБЕРІТЬ РІВЕНЬ СКЛАДНОСТІ"
@@ -84,13 +70,10 @@ Item {
             font.letterSpacing: 4
             color: "#8892a4"
         }
-
         Item { width: 1; height: 16 }
-
         Row {
             anchors.horizontalCenter: parent.horizontalCenter
             spacing: 16
-
             DifficultyCard {
                 title: "ЛЕГКИЙ"
                 subtitle: "9×9 · 10 мін"
@@ -99,7 +82,6 @@ Item {
                 description: "Для початківців"
                 onClicked: startGame(9, 9, 10, "easy")
             }
-
             DifficultyCard {
                 title: "СЕРЕДНІЙ"
                 subtitle: "16×16 · 40 мін"
@@ -108,7 +90,6 @@ Item {
                 description: "Для досвідчених"
                 onClicked: startGame(16, 16, 40, "medium")
             }
-
             DifficultyCard {
                 title: "СКЛАДНИЙ"
                 subtitle: "16×30 · 99 мін"
@@ -118,11 +99,7 @@ Item {
                 onClicked: startGame(16, 30, 99, "hard")
             }
         }
-
-
         Item { width: 1; height: 20 }
-
-        // Records button
         Rectangle {
             anchors.horizontalCenter: parent.horizontalCenter
             width: 200
@@ -131,7 +108,6 @@ Item {
             color: "transparent"
             border.color: "#30363d"
             border.width: 1
-
             Row {
                 anchors.centerIn: parent
                 spacing: 8
@@ -144,7 +120,6 @@ Item {
                     anchors.verticalCenter: parent.verticalCenter
                 }
             }
-
             MouseArea {
                 anchors.fill: parent
                 cursorShape: Qt.PointingHandCursor
@@ -154,8 +129,6 @@ Item {
             }
         }
     }
-
-    // DifficultyCard component
     component DifficultyCard: Rectangle {
         id: card
         property string title: ""
@@ -164,24 +137,20 @@ Item {
         property color accentColor: "#00ff88"
         property string description: ""
         signal clicked()
-
         width: 130
         height: 160
         radius: 14
         color: hovered ? Qt.darker(accentColor, 4) : "#161b22"
         border.color: hovered ? accentColor : "#21262d"
         border.width: hovered ? 2 : 1
-
         property bool hovered: false
         Behavior on color { ColorAnimation { duration: 150 } }
         Behavior on border.color { ColorAnimation { duration: 150 } }
         scale: hovered ? 1.04 : 1.0
         Behavior on scale { NumberAnimation { duration: 150; easing.type: Easing.OutBack } }
-
         Column {
             anchors.centerIn: parent
             spacing: 8
-
             Text {
                 anchors.horizontalCenter: parent.horizontalCenter
                 text: card.icon
@@ -209,7 +178,6 @@ Item {
                 font.letterSpacing: 1
             }
         }
-
         MouseArea {
             anchors.fill: parent
             cursorShape: Qt.PointingHandCursor
